@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: 'always'
+    container_name: 'app'
+    networks:
+      - 'api'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+
+  postgres:
+    image: 'postgres:latest'
+    restart: 'always'
+    container_name: 'postgres'
+    networks:
+      - 'api'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=warehouse
+      - POSTGRES_USER=warehouse
+      - POSTGRES_PASSWORD=warehouse
+    volumes:
+      - './deploy/:/docker-entrypoint-initdb.d/'
+      - './postgres-data:/var/lib/postgresql/data'
+
+
+
+networks:
+  api:
+    driver: bridge

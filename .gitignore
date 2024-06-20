@@ -1,0 +1,9 @@
+.DS_Store
+
+*.pdf
+*.out
+*.env
+.curl
+
+
+postgres-data
